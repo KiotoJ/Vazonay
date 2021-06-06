@@ -1,0 +1,2 @@
+rootProject.name = "Vazonay"
+include ':app'
