@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,20 +30,46 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SeekBar sb = new SeekBar(this);
+        SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
 
         final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
+
+
+        final ImageButton btnPlay = (ImageButton) findViewById(R.id.alefa_hira);
+        final TextView timeVazo = (TextView) findViewById(R.id.duration_vazo);
+        TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
+        //SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
+        //final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
+
         String[] listraLohatenyMp3 = mp3.getAllMp3(getAssets());
         //ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.layout_list_view, R.id.titra_text, listraLohatenyMp3);
         listraHiraMp3 = (ListView) findViewById(R.id.listra_hira);
+        btnPlay.setImageResource(R.drawable.play);
+        final String[] hiraHalefa = {""};
 
         listraHiraMp3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
-                String hiraHalefa = parent.getItemAtPosition(position).toString();
-                intent.putExtra("HIRA_ALEFA", hiraHalefa);
-                startActivity(intent);
+                hiraHalefa[0] = parent.getItemAtPosition(position).toString();
+               // intent.putExtra("HIRA_ALEFA", hiraHalefa);
+                //startActivity(intent);
+                if(mediaPlayer!=null && mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    btnPlay.setImageResource(R.drawable.play);
+                }
+
+                timeVazo.setText(mp3.getLengthOfMozika(hiraHalefa[0], MainActivity.this));
+                playTitraText.setText(hiraHalefa[0]);
+
+            }
+        });
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mp3.playMp3(getAssets(), hiraHalefa[0], btnPlay);
             }
         });
 
@@ -89,5 +116,13 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(0);
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = null;
+        super.onDestroy();
     }
 }

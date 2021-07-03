@@ -64,7 +64,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
 
     public void playMp3(AssetManager am, String pathMp3, ImageButton btnPlay) {
 
-        if (mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             pauseMedia();
             btnPlay.setImageResource(R.drawable.play);
         }
@@ -215,9 +215,11 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     @Override
     public void onCompletion(MediaPlayer mp) {
         //Invoked when playback of a media source has completed.
+        mp.reset();
         stopMedia();
         //stop the service
         stopSelf();
+        //btnPlay.setImageResource(R.drawable.play);
     }
 
     @Override
