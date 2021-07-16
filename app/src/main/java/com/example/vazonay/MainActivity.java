@@ -52,10 +52,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
                 hiraHalefa[0] = parent.getItemAtPosition(position).toString();
-               // intent.putExtra("HIRA_ALEFA", hiraHalefa);
-                //startActivity(intent);
-                if(mediaPlayer!=null && mediaPlayer.isPlaying()){
-                    mediaPlayer.stop();
+
+                if(mediaPlayer != null || mp3.isPaused(mediaPlayer)){
+                    // mediaPlayer.stop();
                     mediaPlayer.reset();
                     btnPlay.setImageResource(R.drawable.play);
                 }
@@ -63,6 +62,30 @@ public class MainActivity extends AppCompatActivity {
                 timeVazo.setText(mp3.getLengthOfMozika(hiraHalefa[0], MainActivity.this));
                 playTitraText.setText(hiraHalefa[0]);
 
+            }
+        });
+
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            private int mProgressAtStartTracking;
+            private int SENSITIVITY;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(mediaPlayer != null && fromUser) {
+                    mediaPlayer.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+               // mProgressAtStartTracking = seekBar.getProgress();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+               // if(Math.abs(mProgressAtStartTracking - seekBar.getProgress()) <= SENSITIVITY){
+                    // react to thumb click
+                //}
             }
         });
 

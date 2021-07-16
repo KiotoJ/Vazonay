@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -46,6 +48,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     private PhoneStateListener phoneStateListener;
     private TelephonyManager telephonyManager;
     private SeekBar seekBar;
+    boolean playedAtLeastOnce;
 
     public Mp3Activity(MediaPlayer mediaPlayer, SeekBar sb) {
         this.mediaPlayer = mediaPlayer;
@@ -63,14 +66,13 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     }
 
     public void playMp3(AssetManager am, String pathMp3, ImageButton btnPlay) {
-
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             pauseMedia();
             btnPlay.setImageResource(R.drawable.play);
         }
         else{
             try {
-                if(resumePosition > 0) {
+                if(resumePosition > 0 && mediaPlayer != null) {
                     resumeMedia();
                 }
                 else {
@@ -130,7 +132,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     }
 
     private void resumeMedia() {
-        if (!mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.seekTo(resumePosition);
             mediaPlayer.start();
         }
@@ -248,6 +250,14 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     public void onPrepared(MediaPlayer mp) {
         //Invoked when the media source is ready for playback.
         playMedia();
+        playedAtLeastOnce = true;
+    }
+
+    public boolean isPaused(MediaPlayer mp) {
+        if (!mp.isPlaying() && playedAtLeastOnce)
+            return true;
+        else
+            return false;
     }
 
     @Override
