@@ -83,19 +83,6 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
         return position;//return this.listraLohatenyMp3.get(position).getId();
     }
 
-    /*private void playAudio(String media) {
-        //Check is service is active
-        if (!serviceBound) {
-            Intent playerIntent = new Intent(context, MediaPlayerService.class);
-            playerIntent.putExtra("media", media);
-            context.startService(playerIntent);
-            context.bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-        } else {
-            //Service is active
-            //Send media with BroadcastReceiver
-        }
-    }*/
-
     //Binding this Client to the AudioPlayer Service
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -122,7 +109,9 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
             view = inflater.inflate(R.layout.layout_list_view, null);
 
             final TextView anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
+            final TextView infoHira = (TextView) view.findViewById(R.id.info_hira);
             anaranaHiraIray.setText(this.listraLohatenyMp3.get(position));
+            infoHira.setText("flokkijii");
 
             final ImageButton mozikaSary = (ImageButton) view.findViewById(R.id.alefa_hira);
             mozikaSary.setImageResource(R.drawable.mozika);

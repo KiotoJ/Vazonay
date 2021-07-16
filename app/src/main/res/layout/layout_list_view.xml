@@ -7,8 +7,7 @@
     <ImageButton
         android:id="@+id/alefa_hira"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="10sp" />
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/titra_text"
         android:layout_width="wrap_content"
@@ -16,9 +15,14 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:paddingLeft="10sp"
-        android:textSize="15sp"
-        android:layout_gravity="center"
+        android:textSize="9pt"
+        android:fontFamily="@font/courgette_regular"
         android:textStyle="bold" />
+    <TextView
+        android:id="@+id/info_hira"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/courgette_regular"
+        android:textSize="3pt"/>
 
 </LinearLayout>

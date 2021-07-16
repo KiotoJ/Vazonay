@@ -4,7 +4,7 @@
     <item android:id="@+id/act_cherch"
         android:title="Hikaroka"
         app:showAsAction="collapseActionView|ifRoom"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/search_bar"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
     <item android:id="@+id/quit"
         android:title="Quitter"/>
