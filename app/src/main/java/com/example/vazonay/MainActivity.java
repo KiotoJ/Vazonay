@@ -12,10 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listraHiraMp3;
     private Mp3Adapter adapter;
     private MediaPlayer mediaPlayer = new MediaPlayer();
+    private LinearLayout linearFanehoanaAmbony;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new Mp3Adapter(this, new ArrayList<String>(Arrays.asList(listraLohatenyMp3)));
         listraHiraMp3.setAdapter(adapter);
-        listraHiraMp3.setTextFilterEnabled(true);
     }
 
     @Override
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem searchMenuItem = menu.findItem( R.id.act_cherch);
         MenuItem quitMenuItem = menu.findItem( R.id.quit);
         final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        linearFanehoanaAmbony = (LinearLayout) findViewById(R.id.linear_fanehoana_ambony);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -121,15 +122,28 @@ public class MainActivity extends AppCompatActivity {
                     listraHiraMp3.clearTextFilter();
                 } else {
                     //Toast.makeText(getApplicationContext(), "itady", Toast.LENGTH_SHORT).show();
-                    listraHiraMp3.setFilterText(newText);
-
-                   /*adapter.getFilter().filter(newText);
-                   listraHiraMp3.setAdapter(adapter);
-                   adapter.notifyDataSetChanged();*/
+                    adapter.getFilter().filter(newText);
                 }
                 return true;
             }
         });
+
+        searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                //Toast.makeText(MainActivity.this, "Expand", Toast.LENGTH_SHORT).show();
+                linearFanehoanaAmbony.setVisibility(View.GONE);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                //Toast.makeText(MainActivity.this, "Collapse", Toast.LENGTH_SHORT).show();
+                linearFanehoanaAmbony.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+
         return true;
     }
     @Override

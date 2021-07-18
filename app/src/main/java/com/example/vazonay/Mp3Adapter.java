@@ -12,14 +12,13 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
-    private ArrayList<String> origListraLohatenyMp3 = new ArrayList<String>();
+    private ArrayList<String> orglistraLohatenyMp3 = new ArrayList<String>();
     private ArrayList<String> listraLohatenyMp3 = new ArrayList<String>();
     private Context context;
     private MediaPlayerService player;
@@ -28,6 +27,7 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
 
     public Mp3Adapter(Context context, ArrayList<String> listraLohatenyMp3) {
         this.listraLohatenyMp3 = listraLohatenyMp3;
+        this.orglistraLohatenyMp3 = listraLohatenyMp3;
         this.context = context;
     }
 
@@ -39,22 +39,28 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
 
             FilterResults results = new FilterResults();
 
-            final ArrayList<String> list = listraLohatenyMp3;
+            final ArrayList<String> list = orglistraLohatenyMp3;
 
-            int count = list.size();
-            final ArrayList<String> nlist = new ArrayList<String>(count);
+            if(constraint.toString() == null || constraint.toString().length() == 0){
+                results.count = orglistraLohatenyMp3.size();
+                results.values = orglistraLohatenyMp3;
+            }else {
+                int count = list.size();
+                final ArrayList<String> nlist = new ArrayList<String>(count);
 
-            String filterableString ;
+                String filterableString ;
 
-            for (int i = 0; i < count; i++) {
-                filterableString = list.get(i);
-                if (filterableString.toLowerCase().contains(filterString)) {
-                    nlist.add(filterableString);
+                for (int i = 0; i < count; i++) {
+                    filterableString = list.get(i);
+                    if (filterableString.toLowerCase().contains(filterString)) {
+                        nlist.add(filterableString);
+                    }
                 }
-            }
 
-            results.values = nlist;
-            results.count = nlist.size();
+                results.values = nlist;
+                results.count = nlist.size();
+
+            }
 
             return results;
         }
@@ -62,7 +68,7 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            origListraLohatenyMp3 = (ArrayList<String>) results.values;
+            listraLohatenyMp3 = (ArrayList<String>) results.values;
             notifyDataSetChanged();
         }
 
@@ -80,7 +86,7 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
 
     @Override
     public long getItemId(int position) {
-        return position;//return this.listraLohatenyMp3.get(position).getId();
+        return position;
     }
 
     //Binding this Client to the AudioPlayer Service
@@ -111,12 +117,13 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
             final TextView anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
             final TextView infoHira = (TextView) view.findViewById(R.id.info_hira);
             anaranaHiraIray.setText(this.listraLohatenyMp3.get(position));
-            infoHira.setText("flokkijii");
+            infoHira.setText("jojhiuh");
 
             final ImageButton mozikaSary = (ImageButton) view.findViewById(R.id.alefa_hira);
             mozikaSary.setImageResource(R.drawable.mozika);
             anaranaHiraIray.setSelected(true);
         }
+
         return view;
     }
 
