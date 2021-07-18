@@ -19,11 +19,20 @@ tools:context=".MainActivity">
             android:id="@+id/play_titra_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textSize="15sp"
+            android:textSize="15pt"
             android:textStyle="bold"
             android:textColor="@color/white"
-            tools:ignore="MissingConstraints" />
+            android:fontFamily="@font/courgette_regular"
+            tools:ignore="MissingConstraints"/>
+        <TextView
+            android:id="@+id/info_play_titra_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="9pt"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:fontFamily="@font/courgette_regular"
+            tools:ignore="MissingConstraints"/>
 
         <ImageButton
             android:id="@+id/back_gro_img"
@@ -50,6 +59,7 @@ tools:context=".MainActivity">
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:fontFamily="@font/courgette_regular"
                     android:layout_gravity="center" />
             </LinearLayout>
 

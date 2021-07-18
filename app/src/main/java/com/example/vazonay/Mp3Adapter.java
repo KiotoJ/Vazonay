@@ -24,6 +24,9 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
     private MediaPlayerService player;
     boolean serviceBound = false;
     private ItemFilter mFilter = new ItemFilter();
+    private static final int TYPE_ITEM = 0;
+
+    private static final int TYPE_SUBITEM = 1;
 
     public Mp3Adapter(Context context, ArrayList<String> listraLohatenyMp3) {
         this.listraLohatenyMp3 = listraLohatenyMp3;
@@ -110,14 +113,19 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
+
         if(view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.layout_list_view, null);
 
             final TextView anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
             final TextView infoHira = (TextView) view.findViewById(R.id.info_hira);
-            anaranaHiraIray.setText(this.listraLohatenyMp3.get(position));
-            infoHira.setText("jojhiuh");
+
+            String[] anaranaFichierSplitted = this.listraLohatenyMp3.get(position).split("\\.");
+            String titraHiraSplitted = anaranaFichierSplitted[0];
+            String infoHiraSplitted = anaranaFichierSplitted[1];
+            anaranaHiraIray.setText(titraHiraSplitted);
+            infoHira.setText(infoHiraSplitted);
 
             final ImageButton mozikaSary = (ImageButton) view.findViewById(R.id.alefa_hira);
             mozikaSary.setImageResource(R.drawable.mozika);

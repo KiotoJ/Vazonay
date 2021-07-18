@@ -15,10 +15,15 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
         final ImageButton btnPlay = (ImageButton) findViewById(R.id.alefa_hira);
         final TextView timeVazo = (TextView) findViewById(R.id.duration_vazo);
         TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
-        //SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
-        //final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
+        TextView infoPlayTitraText = (TextView) findViewById(R.id.info_play_titra_text);
 
         String[] listraLohatenyMp3 = mp3.getAllMp3(getAssets());
         //ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.layout_list_view, R.id.titra_text, listraLohatenyMp3);
@@ -51,17 +55,20 @@ public class MainActivity extends AppCompatActivity {
         listraHiraMp3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, PlayActivity.class);
+                //Intent intent = new Intent(MainActivity.this, PlayActivity.class);
+                linearFanehoanaAmbony.setVisibility(View.VISIBLE);
                 hiraHalefa[0] = parent.getItemAtPosition(position).toString();
+                String[] splittedfullNameFile = hiraHalefa[0].split("\\.");
 
                 if(mediaPlayer != null || mp3.isPaused(mediaPlayer)){
-                    // mediaPlayer.stop();
                     mediaPlayer.reset();
+                    sb.setProgress(0);
                     btnPlay.setImageResource(R.drawable.play);
                 }
 
                 timeVazo.setText(mp3.getLengthOfMozika(hiraHalefa[0], MainActivity.this));
-                playTitraText.setText(hiraHalefa[0]);
+                playTitraText.setText(splittedfullNameFile[0]);
+                infoPlayTitraText.setText(splittedfullNameFile[1]);
 
             }
         });
