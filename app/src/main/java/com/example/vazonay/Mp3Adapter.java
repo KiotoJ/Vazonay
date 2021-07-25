@@ -146,6 +146,8 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
         holder.titraTextLaharana.setText(titraTextLaharanaSplitted);
         holder.anaranaHiraIray.setText(titraHiraSplitted);
         holder.infoHira.setText(infoHiraSplitted);
+        holder.anaranaHiraIray.setSelected(true);
+        holder.infoHira.setSelected(true);
         return view;
     }
 

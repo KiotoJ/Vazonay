@@ -24,8 +24,6 @@
                 android:id="@+id/titra_text_laharana"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
                 android:layout_marginLeft="50dp"
                 android:textColor="@color/white"
                 android:textSize="13pt"
@@ -48,6 +46,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_marginLeft="50dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:fontFamily="@font/open_sans_regular"
             android:textSize="6pt"/>
     </LinearLayout>
