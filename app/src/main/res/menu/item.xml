@@ -6,6 +6,6 @@
         app:showAsAction="collapseActionView|ifRoom"
         android:icon="@drawable/search_bar"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
-    <item android:id="@+id/quit"
-        android:title="Quitter"/>
+    <!--item android:id="@+id/quit"
+        android:title="Quitter"/-->
 </menu>

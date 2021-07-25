@@ -21,6 +21,8 @@ import android.widget.SeekBar;
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 public class Mp3Activity extends Service implements MediaPlayer.OnCompletionListener,
@@ -29,6 +31,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
 
     private String nameFile;
     private MediaPlayer mediaPlayer = new MediaPlayer();
+    static final int READ_BLOCK_SIZE = 100;
 
     public String getNameFile() {
         return nameFile;
@@ -63,6 +66,30 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             e.printStackTrace();
         }
         return allMp3;
+    }
+
+    public String  mamakyTononkira(AssetManager am, String name){
+        String tonony="";
+        try {
+            InputStream is = am.open("tonony/"+name+".txt");
+
+            InputStreamReader InputRead= new InputStreamReader(is);
+
+            char[] inputBuffer= new char[READ_BLOCK_SIZE];
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                tonony +=readstring;
+            }
+            InputRead.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            tonony="Miala Tsiny: Misy olana ny famakiana ilay tonon-kira";
+        }
+        return tonony;
     }
 
     public void playMp3(AssetManager am, String pathMp3, ImageButton btnPlay) {

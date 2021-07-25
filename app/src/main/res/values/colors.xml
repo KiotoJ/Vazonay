@@ -12,4 +12,6 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="lokoApp">#19294a</color>
     <color name="maitso">#127638</color>
+    <color name="borderCadreApp">#223966</color>
+
 </resources>

@@ -59,7 +59,6 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
                         nlist.add(filterableString);
                     }
                 }
-
                 results.values = nlist;
                 results.count = nlist.size();
 
@@ -108,30 +107,45 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
         public void onServiceDisconnected(ComponentName name) {
             serviceBound = false;
         }
+
+
     };
+
+    // for populating listview once use
+    public class MyHolder {
+        TextView anaranaHiraIray, infoHira, titraTextLaharana;
+        public MyHolder(View view) {
+            anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
+            infoHira = (TextView) view.findViewById(R.id.info_hira);
+            titraTextLaharana = (TextView) view.findViewById(R.id.titra_text_laharana);
+        }
+
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
+        MyHolder holder;
+
+        String[] anaranaFichierSplitted = this.listraLohatenyMp3.get(position).split("\\.");
+        String titraTextLaharanaSplitted = anaranaFichierSplitted[0] +". ";
+        String titraHiraSplitted = anaranaFichierSplitted[1];
+        String infoHiraSplitted = anaranaFichierSplitted[2];
 
         if(view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.layout_list_view, null);
 
-            final TextView anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
-            final TextView infoHira = (TextView) view.findViewById(R.id.info_hira);
-
-            String[] anaranaFichierSplitted = this.listraLohatenyMp3.get(position).split("\\.");
-            String titraHiraSplitted = anaranaFichierSplitted[0];
-            String infoHiraSplitted = anaranaFichierSplitted[1];
-            anaranaHiraIray.setText(titraHiraSplitted);
-            infoHira.setText(infoHiraSplitted);
-
-            final ImageButton mozikaSary = (ImageButton) view.findViewById(R.id.alefa_hira);
-            mozikaSary.setImageResource(R.drawable.mozika);
-            anaranaHiraIray.setSelected(true);
+            holder = new MyHolder(view);
+            view.setTag(holder);
+        }
+        else {
+            holder = (MyHolder) view.getTag();
         }
 
+        holder.titraTextLaharana.setText(titraTextLaharanaSplitted);
+        holder.anaranaHiraIray.setText(titraHiraSplitted);
+        holder.infoHira.setText(infoHiraSplitted);
         return view;
     }
 

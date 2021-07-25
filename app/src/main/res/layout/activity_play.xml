@@ -4,41 +4,120 @@
     android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgr"
+    android:background="@color/lokoApp"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/play_titra_text"
+        android:id="@+id/show_tonon_kira"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textAlignment="center"
         android:textSize="15sp"
+        android:layout_marginBottom="160dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/open_sans_regular"
+        android:padding="10px"
         android:textStyle="bold" />
 
     <LinearLayout
+        android:id="@+id/linear_fanehoana_ambony"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/alefa_hira"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            app:srcCompat="@drawable/play" />
-
-        <SeekBar
-            android:id="@+id/progress_bar_vazo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"/>
+        android:background="@drawable/customborder">
 
         <TextView
-            android:id="@+id/duration_vazo"
-            android:layout_width="wrap_content"
+            android:id="@+id/play_titra_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:textSize="13pt"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/courgette_regular"/>
+        <TextView
+            android:id="@+id/info_play_titra_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="6pt"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/open_sans_regular"/>
+
+        <!--ImageButton
+            android:id="@+id/back_gro_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:srcCompat="@drawable/routier" /-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5px"
+                android:orientation="horizontal">
+                <SeekBar
+                    android:id="@+id/progress_bar_vazo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/duration_vazo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_fandefasana_hira"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!--ImageButton
+                    android:id="@+id/star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@android:drawable/btn_star" /-->
+
+                <ImageButton
+                    android:id="@+id/previous"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    app:srcCompat="@drawable/prev" />
+                <ImageButton
+                    android:id="@+id/alefa_hira"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    app:srcCompat="@drawable/play" />
+
+                <ImageButton
+                    android:id="@+id/next"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    app:srcCompat="@drawable/next" />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

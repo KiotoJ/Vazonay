@@ -11,19 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,81 +24,56 @@ public class MainActivity extends AppCompatActivity {
     private Mp3Adapter adapter;
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private LinearLayout linearFanehoanaAmbony;
+    String[] listraLohatenyMp3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
+        SeekBar sb =  new SeekBar(this);
+
+        listraHiraMp3 = (ListView) findViewById(R.id.listra_hira);
 
         final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
 
+        listraLohatenyMp3 = mp3.getAllMp3(getAssets());
 
-        final ImageButton btnPlay = (ImageButton) findViewById(R.id.alefa_hira);
-        final TextView timeVazo = (TextView) findViewById(R.id.duration_vazo);
-        TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
-        TextView infoPlayTitraText = (TextView) findViewById(R.id.info_play_titra_text);
+        adapter = new Mp3Adapter(this, new ArrayList<String>(Arrays.asList(listraLohatenyMp3)));
+        listraHiraMp3.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
-        String[] listraLohatenyMp3 = mp3.getAllMp3(getAssets());
-        //ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.layout_list_view, R.id.titra_text, listraLohatenyMp3);
-        listraHiraMp3 = (ListView) findViewById(R.id.listra_hira);
-        btnPlay.setImageResource(R.drawable.play);
         final String[] hiraHalefa = {""};
 
         listraHiraMp3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Intent intent = new Intent(MainActivity.this, PlayActivity.class);
-                linearFanehoanaAmbony.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(MainActivity.this, PlayActivity.class);
+                //linearFanehoanaAmbony.setVisibility(View.VISIBLE);
                 hiraHalefa[0] = parent.getItemAtPosition(position).toString();
-                String[] splittedfullNameFile = hiraHalefa[0].split("\\.");
 
                 if(mediaPlayer != null || mp3.isPaused(mediaPlayer)){
                     mediaPlayer.reset();
-                    sb.setProgress(0);
-                    btnPlay.setImageResource(R.drawable.play);
                 }
+                intent.putExtra("HIRA_HALEFA", hiraHalefa[0]);
 
-                timeVazo.setText(mp3.getLengthOfMozika(hiraHalefa[0], MainActivity.this));
-                playTitraText.setText(splittedfullNameFile[0]);
-                infoPlayTitraText.setText(splittedfullNameFile[1]);
+                System.out.println(hiraHalefa[0]);
+                startActivity(intent);
 
             }
         });
 
-        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            private int mProgressAtStartTracking;
-            private int SENSITIVITY;
-
+       /* final ImageButton ButtonStar = (ImageButton) findViewById(R.id.star);
+        ButtonStar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(mediaPlayer != null && fromUser) {
-                    mediaPlayer.seekTo(progress);
+            public void onClick(View view) {
+                if (isEnable){
+                    ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
+                }else{
+                    ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
                 }
+                isEnable = !isEnable;
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-               // mProgressAtStartTracking = seekBar.getProgress();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-               // if(Math.abs(mProgressAtStartTracking - seekBar.getProgress()) <= SENSITIVITY){
-                    // react to thumb click
-                //}
-            }
-        });
-
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mp3.playMp3(getAssets(), hiraHalefa[0], btnPlay);
-            }
-        });
-
-        adapter = new Mp3Adapter(this, new ArrayList<String>(Arrays.asList(listraLohatenyMp3)));
-        listraHiraMp3.setAdapter(adapter);
+        });*/
     }
 
     @Override
@@ -113,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate( R.menu.item, menu);
 
         MenuItem searchMenuItem = menu.findItem( R.id.act_cherch);
-        MenuItem quitMenuItem = menu.findItem( R.id.quit);
+        //MenuItem quitMenuItem = menu.findItem( R.id.quit);
         final SearchView searchView = (SearchView) searchMenuItem.getActionView();
         linearFanehoanaAmbony = (LinearLayout) findViewById(R.id.linear_fanehoana_ambony);
 
@@ -128,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(newText)) {
                     listraHiraMp3.clearTextFilter();
                 } else {
-                    //Toast.makeText(getApplicationContext(), "itady", Toast.LENGTH_SHORT).show();
+                    listraHiraMp3.setAdapter(null);
                     adapter.getFilter().filter(newText);
+                    listraHiraMp3.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
                 return true;
             }
@@ -138,15 +108,14 @@ public class MainActivity extends AppCompatActivity {
         searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                //Toast.makeText(MainActivity.this, "Expand", Toast.LENGTH_SHORT).show();
-                linearFanehoanaAmbony.setVisibility(View.GONE);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                //Toast.makeText(MainActivity.this, "Collapse", Toast.LENGTH_SHORT).show();
-                linearFanehoanaAmbony.setVisibility(View.VISIBLE);
+                adapter = new Mp3Adapter(MainActivity.this, new ArrayList<String>(Arrays.asList(listraLohatenyMp3)));
+                listraHiraMp3.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -156,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.quit:
-                System.exit(0);
+            /*case R.id.quit:
+                System.exit(0);*/
         }
         return true;
     }
