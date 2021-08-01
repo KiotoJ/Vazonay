@@ -155,7 +155,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case AudioManager.AUDIOFOCUS_LOSS:
                 // Lost focus for an unbounded amount of time: stop playback and release media player
                 if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-                mediaPlayer.release();
+                mediaPlayer.reset();
                 mediaPlayer = null;
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
@@ -199,7 +199,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         super.onDestroy();
         if (mediaPlayer != null) {
             stopMedia();
-            mediaPlayer.release();
+            mediaPlayer.reset();
         }
         removeAudioFocus();
     }

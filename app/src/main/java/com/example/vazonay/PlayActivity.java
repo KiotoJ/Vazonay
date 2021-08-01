@@ -3,6 +3,7 @@ package com.example.vazonay;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 public class PlayActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer = new MediaPlayer();
+    String[] listraLohatenyMp3;
+    public int laharanaHiraVakiana;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,8 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play);
         setTitle("MANAN-JARA SOA");
         final ImageButton btnPlay = (ImageButton) findViewById(R.id.alefa_hira);
+        final ImageButton btnNext = (ImageButton) findViewById(R.id.next);
+        final ImageButton btnPrevious = (ImageButton) findViewById(R.id.previous);
         final TextView timeVazo = (TextView) findViewById(R.id.duration_vazo);
         TextView infoPlayTitraText = (TextView) findViewById(R.id.info_play_titra_text);
         TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
@@ -29,8 +34,12 @@ public class PlayActivity extends AppCompatActivity {
 
         SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
         final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
+        listraLohatenyMp3 = mp3.getAllMp3(getAssets());
+
         Bundle extras = getIntent().getExtras();
         String hiraVoatsindry = extras.getString("HIRA_HALEFA");
+        String positionCurrentHira = extras.getString("POSITION_CURRENT_HIRA");
+        this.laharanaHiraVakiana = Integer.parseInt(positionCurrentHira);
 
         btnPlay.setImageResource(R.drawable.play);
         timeVazo.setText(mp3.getLengthOfMozika(hiraVoatsindry, PlayActivity.this));
@@ -43,14 +52,45 @@ public class PlayActivity extends AppCompatActivity {
         playTitraText.setText(splittedfullNameFile[1]);
         infoPlayTitraText.setText(splittedfullNameFile[2]);
         showTononKira.setText(mp3.mamakyTononkira(getAssets(), splittedfullNameFile[0]+'.'+splittedfullNameFile[1]+'.'+splittedfullNameFile[2]));
-        //Toast.makeText(getApplicationContext(), hiraVoatsindry, Toast.LENGTH_SHORT).show();
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(extras != null ) {
-                    mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+                if(mediaPlayer == null) return;
+                System.out.println("currentPo: "+ mediaPlayer.getCurrentPosition()+"; totalSize: "+ mp3.lengthTotalMozika(hiraVoatsindry, getBaseContext())+" hiravo: "+hiraVoatsindry);
+                if(mediaPlayer.getCurrentPosition() >= mp3.lengthTotalMozika(hiraVoatsindry, getBaseContext())) return;
+                else mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+            }
+        });
+
+        int legthInMillisecond = mp3.lengthTotalMozika(hiraVoatsindry, PlayActivity.this);
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int nextPosition = mediaPlayer.getCurrentPosition() + 5000;
+                if (nextPosition < legthInMillisecond){
+                    sb.setProgress(nextPosition);
+                    mediaPlayer.seekTo(nextPosition);
+                } else {
+                    sb.setProgress(legthInMillisecond);
                 }
+            }
+        });
+
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int prevPosition = mediaPlayer.getCurrentPosition() - 5000;
+                if ( prevPosition > 0) {
+                    sb.setProgress(mediaPlayer.getCurrentPosition() + 5000);
+                    mediaPlayer.seekTo(prevPosition);
+                }
+                else {
+                    sb.setProgress(0);
+                    mediaPlayer.seekTo(0);
+                }
+
             }
         });
 
@@ -82,7 +122,7 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mediaPlayer.stop();
-        mediaPlayer.release();
+        mediaPlayer.reset();
         mediaPlayer = null;
         super.onDestroy();
     }

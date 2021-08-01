@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
                     mediaPlayer.reset();
                 }
                 intent.putExtra("HIRA_HALEFA", hiraHalefa[0]);
+                intent.putExtra("POSITION_CURRENT_HIRA", String.valueOf(position));
 
-                System.out.println(hiraHalefa[0]);
                 startActivity(intent);
 
             }
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         //MenuItem quitMenuItem = menu.findItem( R.id.quit);
         final SearchView searchView = (SearchView) searchMenuItem.getActionView();
         linearFanehoanaAmbony = (LinearLayout) findViewById(R.id.linear_fanehoana_ambony);
+        searchView.setQueryHint("Tadiavo...");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mediaPlayer.stop();
-        mediaPlayer.release();
+        mediaPlayer.reset();
         mediaPlayer = null;
         super.onDestroy();
     }

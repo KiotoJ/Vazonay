@@ -5,10 +5,13 @@
     android:layout_marginBottom="15dp"
     android:layout_height="match_parent">
 
-    <!--ImageButton
+    <ImageButton
         android:id="@+id/sary_am_hira"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" /-->
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
+            <!--TextView
                 android:id="@+id/titra_text_laharana"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,7 +31,7 @@
                 android:textColor="@color/white"
                 android:textSize="13pt"
                 android:fontFamily="@font/courgette_regular"
-                android:textStyle="bold" />
+                android:textStyle="bold" /-->
             <TextView
                 android:id="@+id/titra_text"
                 android:layout_width="wrap_content"
@@ -45,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:layout_marginLeft="50dp"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:fontFamily="@font/open_sans_regular"

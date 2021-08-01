@@ -45,6 +45,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     private int resumePosition;
 
     private AudioManager audioManager;
+    ImageButton btnPlay;
 
     //Handle incoming phone calls
     private boolean ongoingCall = false;
@@ -93,9 +94,10 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     }
 
     public void playMp3(AssetManager am, String pathMp3, ImageButton btnPlay) {
+        this.btnPlay = btnPlay;
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             pauseMedia();
-            btnPlay.setImageResource(R.drawable.play);
+            this.btnPlay.setImageResource(R.drawable.play);
         }
         else{
             try {
@@ -103,6 +105,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
                     resumeMedia();
                 }
                 else {
+                    mediaPlayer.reset();
                     AssetFileDescriptor afd = am.openFd("hira/"+pathMp3);
                     mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                     mediaPlayer.prepare();
@@ -112,7 +115,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            btnPlay.setImageResource(R.drawable.pause);
+            this.btnPlay.setImageResource(R.drawable.pause);
         }
     }
 
@@ -165,9 +168,8 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
         }
     }
 
-    String getLengthOfMozika(String pathMp3, Context ctx) {
-        int millisecond = 0;
-        String durationMp3 = "";
+    int lengthTotalMozika(String pathMp3, Context ctx){
+        int millisecondLength = 0;
         try {
             final AssetFileDescriptor afd = ctx.getAssets().openFd("hira/"+pathMp3);
 
@@ -177,10 +179,18 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             afd.close();
 
             String durationMozika = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            millisecond = Integer.parseInt(durationMozika);
+            millisecondLength = Integer.parseInt(durationMozika);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return millisecondLength;
+    }
+
+    String getLengthOfMozika(String pathMp3, Context ctx) {
+        int millisecond = this.lengthTotalMozika(pathMp3, ctx);
+        String durationMp3 = "";
+
         durationMp3 = String.format("%02d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes(millisecond),
                         TimeUnit.MILLISECONDS.toSeconds(millisecond) -
@@ -219,7 +229,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             case AudioManager.AUDIOFOCUS_LOSS:
                 // Lost focus for an unbounded amount of time: stop playback and release media player
                 if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-                mediaPlayer.release();
+                mediaPlayer.reset();
                 mediaPlayer = null;
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
@@ -289,7 +299,6 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
 
     @Override
     public void onSeekComplete(MediaPlayer mp) {
-
     }
 
     @Override
@@ -302,6 +311,11 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             try {
                 Thread.sleep(1000);
                 currentPosition = mediaPlayer.getCurrentPosition();
+                if(currentPosition >= total){
+                    this.seekBar.setProgress(0);
+                    this.btnPlay.setImageResource(R.drawable.play);
+                    return;
+                }
             } catch (InterruptedException e) {
                 return;
             } catch (Exception e) {

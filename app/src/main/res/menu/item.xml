@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/act_cherch"
-        android:title="Hikaroka"
+        android:title="Tadiavo"
         app:showAsAction="collapseActionView|ifRoom"
         android:icon="@drawable/search_bar"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>

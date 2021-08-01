@@ -113,11 +113,13 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
 
     // for populating listview once use
     public class MyHolder {
-        TextView anaranaHiraIray, infoHira, titraTextLaharana;
+        TextView anaranaHiraIray, infoHira;
+        ImageButton saryAmHira;
         public MyHolder(View view) {
             anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
             infoHira = (TextView) view.findViewById(R.id.info_hira);
-            titraTextLaharana = (TextView) view.findViewById(R.id.titra_text_laharana);
+            //titraTextLaharana = (TextView) view.findViewById(R.id.titra_text_laharana);
+            saryAmHira = (ImageButton) view.findViewById(R.id.sary_am_hira);
         }
 
     }
@@ -128,7 +130,7 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
         MyHolder holder;
 
         String[] anaranaFichierSplitted = this.listraLohatenyMp3.get(position).split("\\.");
-        String titraTextLaharanaSplitted = anaranaFichierSplitted[0] +". ";
+        String titraTextLaharanaSplitted = anaranaFichierSplitted[0];
         String titraHiraSplitted = anaranaFichierSplitted[1];
         String infoHiraSplitted = anaranaFichierSplitted[2];
 
@@ -143,9 +145,12 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
             holder = (MyHolder) view.getTag();
         }
 
-        holder.titraTextLaharana.setText(titraTextLaharanaSplitted);
+        String PACKAGE_NAME = holder.saryAmHira.getContext().getPackageName();
+        //holder.titraTextLaharana.setText(titraTextLaharanaSplitted);
+        int imgId = holder.saryAmHira.getContext().getResources().getIdentifier(PACKAGE_NAME+":drawable/_"+titraTextLaharanaSplitted , null, null);
         holder.anaranaHiraIray.setText(titraHiraSplitted);
         holder.infoHira.setText(infoHiraSplitted);
+        holder.saryAmHira.setImageResource(imgId);
         holder.anaranaHiraIray.setSelected(true);
         holder.infoHira.setSelected(true);
         return view;

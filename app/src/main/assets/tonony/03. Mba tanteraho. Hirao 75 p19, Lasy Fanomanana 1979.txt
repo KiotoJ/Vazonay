@@ -1,4 +1,5 @@
 MBA TANTERAHO
+Do dia Bb
 
 1. Tsy mba kivy
 tsy mety sasatra
@@ -9,7 +10,7 @@ sy antenaina soa
 avela ho an'ireo
 taranaka taranaka
 
-Isan' andininy:
+Isan'andininy:
     Ka noho izany dia raiso
     ny fanapahan-kevitra hoe
     mba tanteraho an-kintsimpo
