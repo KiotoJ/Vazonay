@@ -3,9 +3,11 @@
     android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_marginBottom="15dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/border_list_v_cust"
     android:layout_height="match_parent">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/sary_am_hira"
         android:layout_width="60dp"
         android:layout_height="match_parent"
@@ -18,7 +20,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/border_list_v_cust"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"

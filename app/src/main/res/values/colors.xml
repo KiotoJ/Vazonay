@@ -11,7 +11,8 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="lokoApp">#19294a</color>
-    <color name="maitso">#127638</color>
+    <color name="maitsokely">#46D687</color>
+    <color name="maitso_anivo">#18D36A</color>
+    <color name="maitsobe">#223b2c</color>
     <color name="borderCadreApp">#223966</color>
-
 </resources>

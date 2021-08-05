@@ -13,7 +13,7 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="15sp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="180dp"
         android:textColor="@color/white"
         android:fontFamily="@font/open_sans_regular"
         android:padding="10px"
@@ -25,17 +25,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/customborder">
+        android:background="@drawable/background_im"
+        android:scaleType="centerCrop">
 
         <TextView
             android:id="@+id/play_titra_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="13pt"
-            android:layout_margin="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
             android:fontFamily="@font/courgette_regular"/>
         <TextView
             android:id="@+id/info_play_titra_text"
@@ -43,8 +46,10 @@
             android:layout_height="wrap_content"
             android:textSize="6pt"
             android:textStyle="bold"
-            android:textColor="@color/white"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textColor="@color/white"
             android:fontFamily="@font/open_sans_regular"/>
 
         <!--ImageButton
@@ -60,7 +65,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5px"
+                android:layout_margin="10dp"
                 android:orientation="horizontal">
                 <SeekBar
                     android:id="@+id/progress_bar_vazo"
@@ -72,7 +77,8 @@
                     android:id="@+id/duration_vazo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="15dp"
                     android:fontFamily="@font/open_sans_regular"
                     android:layout_gravity="center" />
             </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -114,12 +115,12 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
     // for populating listview once use
     public class MyHolder {
         TextView anaranaHiraIray, infoHira;
-        ImageButton saryAmHira;
+        ImageView saryAmHira;
         public MyHolder(View view) {
             anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
             infoHira = (TextView) view.findViewById(R.id.info_hira);
             //titraTextLaharana = (TextView) view.findViewById(R.id.titra_text_laharana);
-            saryAmHira = (ImageButton) view.findViewById(R.id.sary_am_hira);
+            saryAmHira = (ImageView) view.findViewById(R.id.sary_am_hira);
         }
 
     }
