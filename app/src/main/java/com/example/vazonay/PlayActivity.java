@@ -4,11 +4,16 @@ package com.example.vazonay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +37,8 @@ public class PlayActivity extends AppCompatActivity {
         TextView infoPlayTitraText = (TextView) findViewById(R.id.info_play_titra_text);
         TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
         TextView showTononKira = (TextView) findViewById(R.id.show_tonon_kira);
+        LinearLayout linearFanehoanaAmbony = (LinearLayout) findViewById(R.id.linear_fanehoana_ambony);
+        LinearLayout linearFanehoanaAmbany = (LinearLayout) findViewById(R.id.linear_fanehoana_ambany);
 
         SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
         final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
@@ -103,9 +110,6 @@ public class PlayActivity extends AppCompatActivity {
         });
 
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            private int mProgressAtStartTracking;
-            private int SENSITIVITY;
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if(mediaPlayer != null && fromUser) {
@@ -115,15 +119,31 @@ public class PlayActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // mProgressAtStartTracking = seekBar.getProgress();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // if(Math.abs(mProgressAtStartTracking - seekBar.getProgress()) <= SENSITIVITY){
-                // react to thumb click
-                //}
             }
+        });
+
+        ViewTreeObserver vto = linearFanehoanaAmbony.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                RelativeLayout.LayoutParams parameterAmbony = (RelativeLayout.LayoutParams) linearFanehoanaAmbony.getLayoutParams();
+                ViewTreeObserver obs = linearFanehoanaAmbany.getViewTreeObserver();
+
+                parameterAmbony.setMargins(parameterAmbony.leftMargin, parameterAmbony.topMargin, parameterAmbony.rightMargin, linearFanehoanaAmbany.getHeight());
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    obs.removeOnGlobalLayoutListener(this);
+                } else {
+                    obs.removeGlobalOnLayoutListener(this);
+                }
+                linearFanehoanaAmbony.setLayoutParams(parameterAmbony);
+            }
+
         });
     }
 

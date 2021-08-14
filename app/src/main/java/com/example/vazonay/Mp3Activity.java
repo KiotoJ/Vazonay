@@ -105,7 +105,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
                     resumeMedia();
                 }
                 else {
-                    mediaPlayer.reset();
+                    if(mediaPlayer != null) mediaPlayer.reset();
                     AssetFileDescriptor afd = am.openFd("hira/"+pathMp3);
                     mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                     mediaPlayer.prepare();
@@ -130,7 +130,17 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
         //Reset so that the MediaPlayer is not pointing to another data source
         mediaPlayer.reset();
 
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build());
+        } else {
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
+
         try {
             // Set the data source to the mediaFile location
             mediaPlayer.setDataSource(mediaFile);
