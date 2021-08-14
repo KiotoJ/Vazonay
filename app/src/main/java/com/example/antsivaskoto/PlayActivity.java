@@ -1,13 +1,13 @@
-package com.example.vazonay;
+package com.example.antsivaskoto;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -145,6 +144,42 @@ public class PlayActivity extends AppCompatActivity {
             }
 
         });
+
+        PhoneStateListener phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                    //INCOMING call
+                    //do all necessary action to pause the audio
+                    if(mediaPlayer != null){//check mp
+                        if(mediaPlayer.isPlaying()){
+                            mediaPlayer.pause();
+                        }
+                    }
+
+                } else if(state == TelephonyManager.CALL_STATE_IDLE) {
+                    mp3.resumeMedia();
+                    //Not IN CALL
+                    //do anything if the phone-state is idle
+                } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                    //A call is dialing, active or on hold
+                    //do all necessary action to pause the audio
+                    //do something here
+                    if(mediaPlayer!=null){//check mp
+                        //setPlayerButton(true, false, true);
+                        if(mediaPlayer.isPlaying()){
+                            mediaPlayer.pause();
+                        }
+                    }
+                }
+                super.onCallStateChanged(state, incomingNumber);
+            }
+        };//end PhoneStateListener
+
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if(mgr != null) {
+            mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
     }
 
     @Override

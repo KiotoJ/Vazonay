@@ -1,4 +1,4 @@
-package com.example.vazonay;
+package com.example.antsivaskoto;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -6,7 +6,6 @@ import androidx.appcompat.widget.SearchView;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;

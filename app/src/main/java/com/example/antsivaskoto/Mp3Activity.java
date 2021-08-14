@@ -1,4 +1,4 @@
-package com.example.vazonay;
+package com.example.antsivaskoto;
 
 import android.app.Service;
 import android.content.Context;
@@ -171,7 +171,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
         }
     }
 
-    private void resumeMedia() {
+    public void resumeMedia() {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             resumePosition = mediaPlayer.getCurrentPosition();
             mediaPlayer.seekTo(resumePosition);

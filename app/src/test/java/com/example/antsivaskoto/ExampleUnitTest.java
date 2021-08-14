@@ -1,4 +1,4 @@
-package com.example.vazonay;
+package com.example.antsivaskoto;
 
 import org.junit.Test;
 
