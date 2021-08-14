@@ -101,7 +101,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
         }
         else{
             try {
-                if(resumePosition > 0 && mediaPlayer != null) {
+                if(resumePosition > 0 && mediaPlayer != null && this.seekBar.getProgress() > 0) {
                     resumeMedia();
                 }
                 else {
@@ -163,8 +163,10 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
 
     private void resumeMedia() {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            resumePosition = mediaPlayer.getCurrentPosition();
             mediaPlayer.seekTo(resumePosition);
             mediaPlayer.start();
+            new Thread(this).start();
         }
     }
 
@@ -258,6 +260,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
         stopMedia();
         //stop the service
         stopSelf();
+        mp.release();
         //btnPlay.setImageResource(R.drawable.play);
     }
 

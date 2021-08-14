@@ -27,6 +27,7 @@ public class PlayActivity extends AppCompatActivity {
         final ImageButton btnPlay = (ImageButton) findViewById(R.id.alefa_hira);
         final ImageButton btnNext = (ImageButton) findViewById(R.id.next);
         final ImageButton btnPrevious = (ImageButton) findViewById(R.id.previous);
+        final ImageButton btnPlayAgain = (ImageButton) findViewById(R.id.play_again);
         final TextView timeVazo = (TextView) findViewById(R.id.duration_vazo);
         TextView infoPlayTitraText = (TextView) findViewById(R.id.info_play_titra_text);
         TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
@@ -57,9 +58,16 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(mediaPlayer == null) return;
-                System.out.println("currentPo: "+ mediaPlayer.getCurrentPosition()+"; totalSize: "+ mp3.lengthTotalMozika(hiraVoatsindry, getBaseContext())+" hiravo: "+hiraVoatsindry);
-                if(mediaPlayer.getCurrentPosition() >= mp3.lengthTotalMozika(hiraVoatsindry, getBaseContext())) return;
-                else mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+                mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+            }
+        });
+
+        btnPlayAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sb.setProgress(0);
+                mediaPlayer.reset();
+                mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
             }
         });
 
