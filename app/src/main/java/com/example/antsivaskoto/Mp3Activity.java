@@ -44,14 +44,13 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     //Used to pause/resume MediaPlayer
     private int resumePosition;
 
-    private AudioManager audioManager;
     ImageButton btnPlay;
 
     //Handle incoming phone calls
-    private boolean ongoingCall = false;
+    private final boolean ongoingCall = false;
     private PhoneStateListener phoneStateListener;
     private TelephonyManager telephonyManager;
-    private SeekBar seekBar;
+    private final SeekBar seekBar;
     boolean playedAtLeastOnce;
 
     public Mp3Activity(MediaPlayer mediaPlayer, SeekBar sb) {
@@ -70,7 +69,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     }
 
     public String  mamakyTononkira(AssetManager am, String name){
-        String tonony="";
+        StringBuilder tonony= new StringBuilder();
         try {
             InputStream is = am.open("tonony/"+name+".txt");
 
@@ -82,15 +81,15 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             while ((charRead=InputRead.read(inputBuffer))>0) {
                 // char to string conversion
                 String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                tonony +=readstring;
+                tonony.append(readstring);
             }
             InputRead.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-            tonony="Miala Tsiny: Misy olana ny famakiana ilay tonon-kira";
+            tonony = new StringBuilder("Miala Tsiny: Misy olana ny famakiana ilay tonon-kira");
         }
-        return tonony;
+        return tonony.toString();
     }
 
     public void playMp3(AssetManager am, String pathMp3, ImageButton btnPlay) {
@@ -152,9 +151,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     }
 
     private void playMedia() {
-        if (!mediaPlayer.isPlaying()) {
-            //mediaPlayer.start();
-        }
+        mediaPlayer.isPlaying();//mediaPlayer.start();
     }
 
     private void stopMedia() {
@@ -211,14 +208,11 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     }
 
     private boolean requestAudioFocus() {
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            //Focus gained
-            return true;
-        }
+        //Focus gained
+        return result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
         //Could not gain focus
-        return false;
     }
 
     @Nullable
@@ -304,10 +298,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     }
 
     public boolean isPaused(MediaPlayer mp) {
-        if (!mp.isPlaying() && playedAtLeastOnce)
-            return true;
-        else
-            return false;
+        return !mp.isPlaying() && playedAtLeastOnce;
     }
 
     @Override

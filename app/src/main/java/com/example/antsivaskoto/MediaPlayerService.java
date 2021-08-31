@@ -33,8 +33,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     //Handle incoming phone calls
     private boolean ongoingCall = false;
-    private PhoneStateListener phoneStateListener;
-    private TelephonyManager telephonyManager;
 
     private void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
@@ -180,7 +178,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
 
         //Request audio focus
-        if (requestAudioFocus() == false) {
+        if (!requestAudioFocus()) {
             //Could not gain focus
             stopSelf();
         }
@@ -204,12 +202,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private boolean requestAudioFocus() {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            //Focus gained
-            return true;
-        }
+        //Focus gained
+        return result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
         //Could not gain focus
-        return false;
     }
 
     private boolean removeAudioFocus() {
@@ -226,9 +221,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     //Handle incoming phone calls
     private void callStateListener() {
         // Get the telephony manager
-        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         //Starting listening for PhoneState changes
-        phoneStateListener = new PhoneStateListener() {
+        //if at least one call exists or the phone is ringing
+        //pause the MediaPlayer
+        // Phone idle. Start playing.
+        PhoneStateListener phoneStateListener = new PhoneStateListener() {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
                 switch (state) {
@@ -260,7 +258,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
     //Becoming noisy
-    private BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //pause audio on ACTION_AUDIO_BECOMING_NOISY

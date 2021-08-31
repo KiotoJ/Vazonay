@@ -18,12 +18,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
-    private ArrayList<String> orglistraLohatenyMp3 = new ArrayList<String>();
-    private ArrayList<String> listraLohatenyMp3 = new ArrayList<String>();
-    private Context context;
-    private MediaPlayerService player;
+    private ArrayList<String> orglistraLohatenyMp3 = new ArrayList<>();
+    private ArrayList<String> listraLohatenyMp3 = new ArrayList<>();
+    private final Context context;
     boolean serviceBound = false;
-    private ItemFilter mFilter = new ItemFilter();
+    private final ItemFilter mFilter = new ItemFilter();
     private static final int TYPE_ITEM = 0;
 
     private static final int TYPE_SUBITEM = 1;
@@ -49,7 +48,7 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
                 results.values = orglistraLohatenyMp3;
             }else {
                 int count = list.size();
-                final ArrayList<String> nlist = new ArrayList<String>(count);
+                final ArrayList<String> nlist = new ArrayList<>(count);
 
                 String filterableString ;
 
@@ -92,12 +91,12 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
     }
 
     //Binding this Client to the AudioPlayer Service
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
-            player = binder.getService();
+            MediaPlayerService player = binder.getService();
             serviceBound = true;
 
             Toast.makeText(context, "Service Bound", Toast.LENGTH_SHORT).show();
@@ -112,9 +111,10 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
     };
 
     // for populating listview once use
-    public class MyHolder {
-        TextView anaranaHiraIray, infoHira;
-        ImageView saryAmHira;
+    public static class MyHolder {
+        final TextView anaranaHiraIray;
+        final TextView infoHira;
+        final ImageView saryAmHira;
         public MyHolder(View view) {
             anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
             infoHira = (TextView) view.findViewById(R.id.info_hira);

@@ -3,15 +3,19 @@ package com.example.antsivaskoto;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -31,13 +35,19 @@ public class PlayActivity extends AppCompatActivity {
         final ImageButton btnPlay = (ImageButton) findViewById(R.id.alefa_hira);
         final ImageButton btnNext = (ImageButton) findViewById(R.id.next);
         final ImageButton btnPrevious = (ImageButton) findViewById(R.id.previous);
-        final ImageButton btnPlayAgain = (ImageButton) findViewById(R.id.play_again);
+        final ImageButton btnPlayLoop = (ImageButton) findViewById(R.id.play_loop);
         final TextView timeVazo = (TextView) findViewById(R.id.duration_vazo);
+        final ImageView fb = (ImageView) findViewById(R.id.fb);
+        final ImageView paypal = (ImageView) findViewById(R.id.paypal);
         TextView infoPlayTitraText = (TextView) findViewById(R.id.info_play_titra_text);
         TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
         TextView showTononKira = (TextView) findViewById(R.id.show_tonon_kira);
-        LinearLayout linearFanehoanaAmbony = (LinearLayout) findViewById(R.id.linear_fanehoana_ambony);
+        RelativeLayout linearFanehoanaAmbony = (RelativeLayout) findViewById(R.id.linear_fanehoana_ambony);
         LinearLayout linearFanehoanaAmbany = (LinearLayout) findViewById(R.id.linear_fanehoana_ambany);
+        LinearLayout showFacebookPaypal = (LinearLayout) findViewById(R.id.show_facebook_paypal);
+
+        fb.setVisibility(View.GONE);
+        paypal.setVisibility(View.GONE);
 
         SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
         final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
@@ -56,56 +66,70 @@ public class PlayActivity extends AppCompatActivity {
 
         String[] splittedfullNameFile = hiraVoatsindry.split("\\.");
         timeVazo.setText(mp3.getLengthOfMozika(hiraVoatsindry, PlayActivity.this));
+
         playTitraText.setText(splittedfullNameFile[1]);
         infoPlayTitraText.setText(splittedfullNameFile[2]);
+
+        if(splittedfullNameFile[0].equals("00")){
+            fb.setVisibility(View.VISIBLE);
+            paypal.setVisibility(View.VISIBLE);
+            showTononKira.setGravity(Gravity.LEFT);
+            playTitraText.setText("Fanolorana");
+            infoPlayTitraText.setText("Fisaorana");
+        }
         showTononKira.setText(mp3.mamakyTononkira(getAssets(), splittedfullNameFile[0]+'.'+splittedfullNameFile[1]+'.'+splittedfullNameFile[2]));
 
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mediaPlayer == null) return;
-                mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+        fb.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+            String url = "https://www.facebook.com/Antsiva-Skoto-app-103599312047583";
+            browserIntent.setData(Uri.parse(url));
+            if(browserIntent.resolveActivity(getPackageManager()) != null){
+                startActivity(browserIntent);
             }
         });
 
-        btnPlayAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sb.setProgress(0);
-                mediaPlayer.reset();
-                mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+        paypal.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/donate?hosted_button_id=WMQGV4YJV7MYL"));
+            if(browserIntent.resolveActivity(getPackageManager()) != null){
+                startActivity(browserIntent);
             }
+        });
+
+        btnPlay.setOnClickListener(v -> {
+            if(mediaPlayer == null) return;
+            mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+        });
+
+        btnPlayLoop.setOnClickListener(v -> {
+            sb.setProgress(0);
+            mediaPlayer.reset();
+            mp3.playMp3(getAssets(), hiraVoatsindry, btnPlay);
+            mediaPlayer.setLooping(true);
         });
 
         int legthInMillisecond = mp3.lengthTotalMozika(hiraVoatsindry, PlayActivity.this);
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int nextPosition = mediaPlayer.getCurrentPosition() + 5000;
-                if (nextPosition < legthInMillisecond){
-                    sb.setProgress(nextPosition);
-                    mediaPlayer.seekTo(nextPosition);
-                } else {
-                    sb.setProgress(legthInMillisecond);
-                }
+        btnNext.setOnClickListener(v -> {
+            int nextPosition = mediaPlayer.getCurrentPosition() + 5000;
+            if (nextPosition < legthInMillisecond){
+                sb.setProgress(nextPosition);
+                mediaPlayer.seekTo(nextPosition);
+            } else {
+                sb.setProgress(legthInMillisecond);
             }
         });
 
-        btnPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int prevPosition = mediaPlayer.getCurrentPosition() - 5000;
-                if ( prevPosition > 0) {
-                    sb.setProgress(mediaPlayer.getCurrentPosition() + 5000);
-                    mediaPlayer.seekTo(prevPosition);
-                }
-                else {
-                    sb.setProgress(0);
-                    mediaPlayer.seekTo(0);
-                }
-
+        btnPrevious.setOnClickListener(v -> {
+            int prevPosition = mediaPlayer.getCurrentPosition() - 5000;
+            if ( prevPosition > 0) {
+                sb.setProgress(mediaPlayer.getCurrentPosition() + 5000);
+                mediaPlayer.seekTo(prevPosition);
             }
+            else {
+                sb.setProgress(0);
+                mediaPlayer.seekTo(0);
+            }
+
         });
 
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -131,15 +155,22 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 RelativeLayout.LayoutParams parameterAmbony = (RelativeLayout.LayoutParams) linearFanehoanaAmbony.getLayoutParams();
+                RelativeLayout.LayoutParams parameterImageViews = (RelativeLayout.LayoutParams) showFacebookPaypal.getLayoutParams();
                 ViewTreeObserver obs = linearFanehoanaAmbany.getViewTreeObserver();
+                ViewTreeObserver obsShowPaypalFacebook = fb.getViewTreeObserver();
+
 
                 parameterAmbony.setMargins(parameterAmbony.leftMargin, parameterAmbony.topMargin, parameterAmbony.rightMargin, linearFanehoanaAmbany.getHeight());
+                parameterImageViews.setMargins(linearFanehoanaAmbony.getWidth() - 130, linearFanehoanaAmbony.getHeight() - linearFanehoanaAmbany.getHeight() - 280, 10, 10);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     obs.removeOnGlobalLayoutListener(this);
+                    obsShowPaypalFacebook.removeOnGlobalLayoutListener(this);
                 } else {
                     obs.removeGlobalOnLayoutListener(this);
+                    obsShowPaypalFacebook.removeGlobalOnLayoutListener(this);
                 }
+                showFacebookPaypal.setLayoutParams(parameterImageViews);
                 linearFanehoanaAmbony.setLayoutParams(parameterAmbony);
             }
 
