@@ -1,4 +1,4 @@
-package com.example.antsivaskoto;
+package com.hira.antsivaskoto;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,24 +32,24 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         setTitle("MANAN-JARA SOA");
-        final ImageButton btnPlay = (ImageButton) findViewById(R.id.alefa_hira);
-        final ImageButton btnNext = (ImageButton) findViewById(R.id.next);
-        final ImageButton btnPrevious = (ImageButton) findViewById(R.id.previous);
-        final ImageButton btnPlayLoop = (ImageButton) findViewById(R.id.play_loop);
-        final TextView timeVazo = (TextView) findViewById(R.id.duration_vazo);
-        final ImageView fb = (ImageView) findViewById(R.id.fb);
-        final ImageView paypal = (ImageView) findViewById(R.id.paypal);
-        TextView infoPlayTitraText = (TextView) findViewById(R.id.info_play_titra_text);
-        TextView playTitraText = (TextView) findViewById(R.id.play_titra_text);
-        TextView showTononKira = (TextView) findViewById(R.id.show_tonon_kira);
-        RelativeLayout linearFanehoanaAmbony = (RelativeLayout) findViewById(R.id.linear_fanehoana_ambony);
-        LinearLayout linearFanehoanaAmbany = (LinearLayout) findViewById(R.id.linear_fanehoana_ambany);
-        LinearLayout showFacebookPaypal = (LinearLayout) findViewById(R.id.show_facebook_paypal);
+        final ImageButton btnPlay = findViewById(R.id.alefa_hira);
+        final ImageButton btnNext = findViewById(R.id.next);
+        final ImageButton btnPrevious = findViewById(R.id.previous);
+        final ImageButton btnPlayLoop = findViewById(R.id.play_loop);
+        final TextView timeVazo = findViewById(R.id.duration_vazo);
+        final ImageView fb = findViewById(R.id.fb);
+        final ImageView paypal = findViewById(R.id.paypal);
+        TextView infoPlayTitraText = findViewById(R.id.info_play_titra_text);
+        TextView playTitraText = findViewById(R.id.play_titra_text);
+        TextView showTononKira = findViewById(R.id.show_tonon_kira);
+        RelativeLayout linearFanehoanaAmbony = findViewById(R.id.linear_fanehoana_ambony);
+        LinearLayout linearFanehoanaAmbany = findViewById(R.id.linear_fanehoana_ambany);
+        LinearLayout showFacebookPaypal = findViewById(R.id.show_facebook_paypal);
 
         fb.setVisibility(View.GONE);
         paypal.setVisibility(View.GONE);
 
-        SeekBar sb =  (SeekBar) findViewById(R.id.progress_bar_vazo);
+        SeekBar sb = findViewById(R.id.progress_bar_vazo);
         final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
         listraLohatenyMp3 = mp3.getAllMp3(getAssets());
 
@@ -76,6 +76,8 @@ public class PlayActivity extends AppCompatActivity {
             showTononKira.setGravity(Gravity.LEFT);
             playTitraText.setText("Fanolorana");
             infoPlayTitraText.setText("Fisaorana");
+        }else if(!splittedfullNameFile[0].equals("00")){
+            showTononKira.setGravity(Gravity.CENTER);
         }
         showTononKira.setText(mp3.mamakyTononkira(getAssets(), splittedfullNameFile[0]+'.'+splittedfullNameFile[1]+'.'+splittedfullNameFile[2]));
 

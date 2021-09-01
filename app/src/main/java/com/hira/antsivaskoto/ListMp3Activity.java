@@ -1,4 +1,4 @@
-package com.example.antsivaskoto;
+package com.hira.antsivaskoto;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -31,7 +29,7 @@ public class ListMp3Activity extends AppCompatActivity {
         setContentView(R.layout.activity_list_mp3);
         SeekBar sb =  new SeekBar(this);
 
-        listraHiraMp3 = (ListView) findViewById(R.id.listra_hira);
+        listraHiraMp3 = findViewById(R.id.listra_hira);
 
         final Mp3Activity mp3 = new Mp3Activity(mediaPlayer, sb);
 
@@ -79,7 +77,7 @@ public class ListMp3Activity extends AppCompatActivity {
         MenuItem searchMenuItem = menu.findItem( R.id.act_cherch);
         //MenuItem quitMenuItem = menu.findItem( R.id.quit);
         final SearchView searchView = (SearchView) searchMenuItem.getActionView();
-        RelativeLayout linearFanehoanaAmbony = (RelativeLayout) findViewById(R.id.linear_fanehoana_ambony);
+        RelativeLayout linearFanehoanaAmbony = findViewById(R.id.linear_fanehoana_ambony);
         searchView.setQueryHint("Tadiavo...");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

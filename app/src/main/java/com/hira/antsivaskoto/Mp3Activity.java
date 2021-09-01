@@ -1,4 +1,4 @@
-package com.example.antsivaskoto;
+package com.hira.antsivaskoto;
 
 import android.app.Service;
 import android.content.Context;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Mp3Activity extends Service implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnSeekCompleteListener,
-        MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, AudioManager.OnAudioFocusChangeListener, Runnable{
+        MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, AudioManager.OnAudioFocusChangeListener, Runnable {
 
     private String nameFile;
     private MediaPlayer mediaPlayer = new MediaPlayer();
@@ -52,6 +52,10 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
     private TelephonyManager telephonyManager;
     private final SeekBar seekBar;
     boolean playedAtLeastOnce;
+
+    public Mp3Activity(SeekBar seekBar){
+        this.seekBar = seekBar;
+    }
 
     public Mp3Activity(MediaPlayer mediaPlayer, SeekBar sb) {
         this.mediaPlayer = mediaPlayer;

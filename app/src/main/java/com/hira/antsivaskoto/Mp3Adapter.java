@@ -1,4 +1,4 @@
-package com.example.antsivaskoto;
+package com.hira.antsivaskoto;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -116,10 +116,10 @@ class Mp3Adapter extends BaseAdapter implements ListAdapter, Filterable {
         final TextView infoHira;
         final ImageView saryAmHira;
         public MyHolder(View view) {
-            anaranaHiraIray = (TextView) view.findViewById(R.id.titra_text);
-            infoHira = (TextView) view.findViewById(R.id.info_hira);
+            anaranaHiraIray = view.findViewById(R.id.titra_text);
+            infoHira = view.findViewById(R.id.info_hira);
             //titraTextLaharana = (TextView) view.findViewById(R.id.titra_text_laharana);
-            saryAmHira = (ImageView) view.findViewById(R.id.sary_am_hira);
+            saryAmHira = view.findViewById(R.id.sary_am_hira);
         }
 
     }

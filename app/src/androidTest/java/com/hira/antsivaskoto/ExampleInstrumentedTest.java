@@ -1,4 +1,4 @@
-package com.example.antsivaskoto;
+package com.hira.antsivaskoto;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.vazonay", appContext.getPackageName());
+        assertEquals("com.hira.vazonay", appContext.getPackageName());
     }
 }

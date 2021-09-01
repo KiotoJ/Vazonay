@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.antsivaskoto">
+    package="com.hira.antsivaskoto">
 
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
@@ -14,12 +14,13 @@
         android:roundIcon="@drawable/logo_boribory"
         android:theme="@style/Theme.Vazonay"
         android:supportsRtl="true">
-        <activity android:name="com.example.antsivaskoto.PlayActivity" />
-        <activity android:name="com.example.antsivaskoto.Mp3Activity"/>
-        <activity android:name="com.example.antsivaskoto.ListMp3Activity" />
+        <activity android:name="com.hira.antsivaskoto.PlayActivity" />
+        <activity android:name="com.hira.antsivaskoto.Mp3Activity"
+            tools:ignore="Instantiatable" />
+        <activity android:name="com.hira.antsivaskoto.ListMp3Activity" />
 
         <activity
-            android:name="com.example.antsivaskoto.MainActivity"
+            android:name="com.hira.antsivaskoto.MainActivity"
             android:theme="@style/Theme.Vazonay.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +30,7 @@
         </activity>
 
         <service
-            android:name="com.example.antsivaskoto.MediaPlayerService"
+            android:name="com.hira.antsivaskoto.MediaPlayerService"
             android:enabled="true"
             android:exported="true" />
     </application>
